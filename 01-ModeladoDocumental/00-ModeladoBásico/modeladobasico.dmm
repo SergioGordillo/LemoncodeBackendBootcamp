@@ -279,7 +279,7 @@
 				},
 				{
 					"id": "264f45f4-067a-45de-a219-079ab12897ba",
-					"name": "idVideo",
+					"name": "video",
 					"datatype": "a1af1a56-6c2b-429d-86ac-0d0951b58d43",
 					"param": "",
 					"pk": false,
@@ -1341,7 +1341,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": 1704669528734
+		"lastSaved": 1705261676930
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -1351,7 +1351,7 @@
 			"id": "0edacc98-f336-4026-b25a-199aa207d521",
 			"keysgraphics": true,
 			"linegraphics": "detailed",
-			"zoom": 0.7,
+			"zoom": 1.1,
 			"background": "transparent",
 			"lineColor": "transparent",
 			"isOpen": true,
