@@ -16,7 +16,15 @@ En este base de datos puedes encontrar un montón de alojamientos y sus reviews,
 **Pregunta**. Si montaras un sitio real, ¿Qué posibles problemas pontenciales les ves a como está almacenada la información?
 
 ```md
-Indica aquí que problemas ves
+La información está almacenada de forma muy poco eficiente. Tenemos todo en la misma colección, de modo que:
+
+· Cualquier petición que hagamos desde Frontend nos va a traer un montón de datos innecesarios, haciendo las peticiones más lentas y obligándonos a mayor procesamiento en frontend para filtrar datos y mostrar sólo los datos necesarios al usuario.
+· Si realizamos dicho procesamiento en backend, estamos gastando muchos recursos de forma innecesaria, ya que tenemos que filtrar una gran cantidad de datos que no necesitamos traer de la BBDD.
+· Cualquier petición a la BBDD va a ser lenta al traer una gran cantidad de datos, y filtrar tanto en front como en back sólo es un parche para un problema existente desde el inicio. 
+
+Por último, al ser datos recolectados mediante web scraping, es muy posible que no estén actualizados, de modo que sería interesante una automatización que pudiera actualizar los datos con dicha periodicidad.
+
+Mi propuesta de solución sería dividir la colección en distintas colecciones, siguiendo los patrones de modelado de Mongo más adecuados y óptimos, buscando rapidez y escalabilidad, de acuerdo a lo que necesitemos para la aplicación, así como asegurarnos de tener los datos actualizados mediante lanzamientos de webscraping periódicos.
 ```
 
 ## Obligatorio
@@ -28,7 +36,9 @@ Esta es la parte mínima que tendrás que entregar para superar este laboratorio
 - Saca en una consulta cuantos alojamientos hay en España.
 
 ```js
-// Pega aquí tu consulta
+db.listingsAndReviews.find({
+    'address.country': 'Spain',
+  });
 ```
 
 - Lista los 10 primeros:
@@ -36,7 +46,21 @@ Esta es la parte mínima que tendrás que entregar para superar este laboratorio
   - Sólo muestra: nombre, precio, camas y la localidad (`address.market`).
 
 ```js
-// Pega aquí tu consulta
+db.listingsAndReviews
+  .find(
+    {
+      'address.country': 'Spain',
+    },
+    {
+      _id: 0,
+      name: 1,
+      price: 1,
+      beds: 1,
+      city: '$address.market',
+    }
+  )
+  .limit(10)
+  .sort({ price: 1 })
 ```
 
 ### Filtrando
