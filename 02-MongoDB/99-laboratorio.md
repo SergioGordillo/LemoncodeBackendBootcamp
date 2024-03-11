@@ -71,35 +71,113 @@ db.listingsAndReviews
   - Sólo muestra: nombre, precio, camas y baños.
 
 ```js
-// Pega aquí tu consulta
+use('listingsAndReviews');
+db.listingsAndReviews
+    .find(
+      {
+        beds: 4,
+        bathrooms: { $gte: 2 }
+      },
+      {
+        _id: 0,
+        name: 1,
+        price: 1,
+        beds: 1,
+        bathrooms: 1,
+      }
+    )
 ```
 
 - Aunque estamos de viaje no queremos estar desconectados, así que necesitamos que el alojamiento también tenga conexión wifi. A los requisitos anteriores, hay que añadir que el alojamiento tenga wifi.
   - Sólo muestra: nombre, precio, camas, baños y servicios (`amenities`).
 
 ```js
-// Pega aquí tu consulta
+use('listingsAndReviews');
+db.listingsAndReviews.find(
+    {
+      beds: 4,
+      bathrooms: { $gte: 2 },
+      amenities: { $all: ['Wifi'] },
+    },
+    {
+      _id: 0,
+      name: 1,
+      price: 1,
+      beds: 1,
+      bathrooms: 1,
+      amenities: 1,
+    }
+  );
 ```
 
 - Y bueno, un amigo trae a su perro, así que tenemos que buscar alojamientos que permitan mascota (_Pets allowed_).
   - Sólo muestra: nombre, precio, camas, baños y servicios (`amenities`).
 
 ```js
-// Pega aquí tu consulta
+use('listingsAndReviews');
+db.listingsAndReviews.find(
+    {
+      beds: 4,
+      bathrooms: { $gte: 2 },
+      amenities: { $all: ['Wifi', 'Pets allowed'] },
+    },
+    {
+      _id: 0,
+      name: 1,
+      price: 1,
+      beds: 1,
+      bathrooms: 1,
+      amenities: 1,
+    }
+  );
 ```
 
 - Estamos entre ir a Barcelona o a Portugal, los dos destinos nos valen. Pero queremos que el precio nos salga baratito (50 $), y que tenga buen rating de reviews (campo `review_scores.review_scores_rating` igual o superior a 88).
   - Sólo muestra: nombre, precio, camas, baños, rating y localidad.
 
 ```js
-// Pega aquí tu consulta
+  use('listingsAndReviews');
+  db.listingsAndReviews.find(
+    {
+      $or: [{ 'address.market': 'Barcelona' }, { 'address.country': 'Portugal' }],
+      price: { $lte: 50 },
+      'review_scores.review_scores_rating': { $gte: 88 },
+    },
+    {
+      _id: 0,
+      name: 1,
+      price: 1,
+      beds: 1,
+      rating: '$review_scores.review_scores_rating',
+      city: '$address.market',
+    }
+  );
 ```
 
 - También queremos que el huésped sea un superhost (`host.host_is_superhost`) y que no tengamos que pagar depósito de seguridad (`security_deposit`).
   - Sólo muestra: nombre, precio, camas, baños, rating, si el huésped es superhost, depósito de seguridad y localidad.
 
 ```js
-// Pega aquí tu consulta
+  use('listingsAndReviews');
+  db.listingsAndReviews.find(
+    {
+      $or: [{ 'address.market': 'Barcelona' }, { 'address.country': 'Portugal' }],
+      price: { $lte: 50 },
+      'review_scores.review_scores_rating': { $gte: 88 },
+      'host.host_is_superhost': true,
+      security_deposit: 0
+    },
+    {
+      _id: 0,
+      name: 1,
+      price: 1,
+      beds: 1,
+      rating: '$review_scores.review_scores_rating',
+      city: '$address.market',
+      superhost: '$host.host_is_superhost',
+      security_deposit: 1
+    }
+  );
 ```
 
 ### Agregaciones
@@ -110,13 +188,29 @@ db.listingsAndReviews
   - Precio
 
 ```js
-// Pega aquí tu consulta
+  db.listingsAndReviews.aggregate(
+    { $match: { 'address.country': 'Spain' } },
+    {
+      $project: {
+        _id: 0,
+        name: 1,
+        city: '$address.market',
+        price: 1,
+      },
+    }
+  );
 ```
 
 - Queremos saber cuantos alojamientos hay disponibles por pais.
 
 ```js
-// Pega aquí tu consulta
+  use('listingsAndReviews');
+  db.listingsAndReviews.aggregate({
+    $group: {
+      _id: '$address.country',
+      total_listings_available: { $sum: 1 },
+    },
+  });
 ```
 
 ## Opcional
@@ -124,19 +218,63 @@ db.listingsAndReviews
 - Queremos saber el precio medio de alquiler de airbnb en España.
 
 ```js
-// Pega aquí tu consulta
+  use('listingsAndReviews');
+  db.listingsAndReviews.aggregate(
+    { $match: { 'address.country': 'Spain' } },
+    {
+      $group: {
+        _id: null,
+        average_price: { $avg: '$price' },
+      },
+    },
+    {
+      $project: {
+        average_price: {
+          $round: ['$average_price', 2],
+        },
+      },
+    }
+  );
 ```
 
 - ¿Y si quisieramos hacer como el anterior, pero sacarlo por paises?
 
 ```js
-// Pega aquí tu consulta
+db.listingsAndReviews.aggregate(
+  {
+    $group: {
+      _id: '$address.country',
+      average_price: { $avg: '$price' },
+    },
+  },
+  {
+    $project: {
+      average_price: {
+        $round: ['$average_price', 2],
+      },
+    },
+  }
+);
 ```
 
 - Repite los mismos pasos pero agrupando también por numero de habitaciones.
 
 ```js
-// Pega aquí tu consulta
+  db.listingsAndReviews.aggregate(
+    {
+      $group: {
+        _id: { country: '$address.country', bedrooms: '$bedrooms'},
+        average_price: { $avg: '$price' },
+      },
+    },
+    {
+      $project: {
+        average_price: {
+          $round: ['$average_price', 2],
+        },
+      },
+    }
+  );
 ```
 
 ## Desafio
@@ -152,5 +290,36 @@ Queremos mostrar el top 5 de alojamientos más caros en España, con los siguent
 - Servicios, pero en vez de un array, un string con todos los servicios incluidos.
 
 ```js
-// Pega aquí tu consulta
+
+db.listingsAndReviews.aggregate(
+  { $match: { 'address.country': 'Spain' } },
+  { $sort: { price: -1 } },
+  { $limit: 5 },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      price: 1,
+      bedrooms: 1,
+      beds: 1,
+      bathrooms: 1,
+      locality: '$address.market',
+      amenities: {
+        $reduce: {
+          input: '$amenities',
+          initialValue: '',
+          in: {
+            $concat: [
+              '$$value',
+              { $cond: [{ $eq: ['$$value', ''] }, '', ', '] },
+              '$$this',
+            ],
+          },
+        },
+      },
+    },
+  }
+);
+
+
 ```
