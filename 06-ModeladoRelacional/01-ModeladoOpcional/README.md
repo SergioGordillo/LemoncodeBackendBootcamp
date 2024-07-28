@@ -4,7 +4,7 @@
 
 Para los requisitos del caso opcional, he planteado el siguiente modelo:
 
-![CasoOpcional](./content/ModeladoRelacional.jpg)
+![CasoOpcional](./content/ModeladoRelacionalOpcional.jpg)
 
 · He creado una tabla Temática para la jerarquía de temáticas, con tres campos (idTematica, nombreTematica e idPadre). En este caso, idPadre funciona como una Foreign Key, y nos permite la creación de una estructura de árbol en la que cada temática puede tener un único padre (por ejemplo, React iría dentro del padre Frontend) y cada padre puede tener muchos hijos (Frontend puede tener hijos como React, Angular, Vue, Svelte...). Aquí la información se recuperaría con consultas recursivas.
 
