@@ -1,0 +1,24 @@
+﻿** Aspectos destacados
+     Tablas que se volverán a crear con los datos migrados
+       Ninguno
+     Índices clúster que se van a quitar
+       Ninguno
+     Índices clúster que se van a crear
+       Ninguno
+     Posibles incidencias de datos
+       Debe agregarse la columna [dbo].[Pedido].[CuponDescuentoId] de la tabla [dbo].[Pedido], pero esta columna no tiene un
+         valor predeterminado y no admite valores NULL. Si la tabla contiene datos, el script ALTER no funcionará. Para evitar
+         esta incidencia, agregue un valor predeterminado a la columna, márquela de modo que permita valores NULL o habilite la
+         generación de valores predeterminados inteligentes como opción de implementación.
+
+** Acciones del usuario
+     Modificar
+       [dbo].[Pedido] (Tabla)
+     Crear
+       [dbo].[CuponDescuento] (Tabla)
+       [dbo].[FK_Pedido_CuponDescuento] (Clave externa)
+
+** Acciones de compatibilidad
+
+Debe agregarse la columna [dbo].[Pedido].[CuponDescuentoId] de la tabla [dbo].[Pedido], pero esta columna no tiene un valor predeterminado y no admite valores NULL. Si la tabla contiene datos, el script ALTER no funcionará. Para evitar esta incidencia, agregue un valor predeterminado a la columna, márquela de modo que permita valores NULL o habilite la generación de valores predeterminados inteligentes como opción de implementación.
+

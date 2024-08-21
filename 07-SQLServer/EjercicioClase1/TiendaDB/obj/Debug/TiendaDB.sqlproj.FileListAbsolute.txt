@@ -1,0 +1,6 @@
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\bin\Debug\TiendaDB.dacpac
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\bin\Debug\TiendaDB.dll
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\bin\Debug\TiendaDB.pdb
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\obj\Debug\TiendaDB.sqlproj.AssemblyReference.cache
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\obj\Debug\TiendaDB.dll
+C:\LemoncodeBackendBootcamp\LemoncodeBackendBootcamp\07-SQLServer\EjercicioClase1\TiendaDB\obj\Debug\TiendaDB.pdb

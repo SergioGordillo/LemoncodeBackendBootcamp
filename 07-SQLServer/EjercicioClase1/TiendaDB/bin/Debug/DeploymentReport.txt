@@ -1,0 +1,21 @@
+﻿** Aspectos destacados
+     Tablas que se volverán a crear con los datos migrados
+       Ninguno
+     Índices clúster que se van a quitar
+       Ninguno
+     Índices clúster que se van a crear
+       Ninguno
+     Posibles incidencias de datos
+       Ninguno
+
+** Acciones del usuario
+     Crear
+       [dbo].[Articulo] (Tabla)
+       [dbo].[Cliente] (Tabla)
+       [dbo].[DetallePedido] (Tabla)
+       [dbo].[Pedido] (Tabla)
+       [dbo].[FK_DetallePedido_Pedido] (Clave externa)
+       [dbo].[FK_DetallePedido_Articulo] (Clave externa)
+       [dbo].[FK_Pedido_Cliente] (Clave externa)
+
+** Acciones de compatibilidad

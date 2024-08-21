@@ -86,3 +86,6 @@ typings/
 
 # Package-lock 
 package-lock.json
+
+#.bak
+*.bak
