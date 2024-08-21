@@ -46,3 +46,43 @@ ORDER BY TracksNumber DESC;
 
 --Listar las playlist (sin repetir ninguna) que tienen alguna canción de AC/DC
 
+SELECT DISTINCT p.Name AS PlaylistName
+FROM Playlist p
+JOIN PlaylistTrack pt ON p.PlaylistId = pt.PlaylistId
+JOIN Track t ON pt.TrackId = t.TrackId
+JOIN Album a ON t.AlbumId = a.AlbumId
+JOIN Artist ar ON a.ArtistId = ar.ArtistId
+WHERE ar.Name = 'AC/DC';
+
+--Listar las playlist que tienen alguna canción del artista Queen, junto con la cantidad que tienen
+SELECT p.Name AS PlaylistName, COUNT(pt.TrackId) AS NumberOfTracks
+FROM Playlist p
+JOIN PlaylistTrack pt ON p.PlaylistId = pt.PlaylistId
+JOIN Track t ON pt.TrackId = t.TrackId
+JOIN Album a ON t.AlbumId = a.AlbumId
+JOIN Artist ar ON a.ArtistId = ar.ArtistId
+WHERE ar.Name = 'Queen'
+GROUP BY p.Name;
+
+--Listar las pistas que no están en ninguna playlist
+SELECT t.*
+FROM Track t
+LEFT JOIN PlaylistTrack pt ON t.TrackId = pt.TrackId
+WHERE pt.TrackId IS NULL;
+
+--Listar los artistas que no tienen album
+SELECT ar.Name AS ArtistName
+FROM Artist ar
+LEFT JOIN Album a ON ar.ArtistId = a.ArtistId
+WHERE a.AlbumId IS NULL;
+
+--Listar los artistas con el número de albums que tienen
+SELECT ar.Name AS ArtistName, COUNT(a.AlbumId) AS NumberOfAlbums
+FROM Artist ar
+LEFT JOIN Album a ON ar.ArtistId = a.ArtistId
+GROUP BY ar.Name;
+
+
+
+
+
