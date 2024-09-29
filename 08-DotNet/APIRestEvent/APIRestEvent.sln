@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIRestEvent.WebAPI", "APIRestEvent.WebAPI\APIRestEvent.WebAPI.csproj", "{48E9998B-2330-4B96-9D19-EEE4969C19B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DE33C7E-2316-4587-B262-5306392C84E9}
+	EndGlobalSection
+EndGlobal
