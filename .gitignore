@@ -89,3 +89,44 @@ package-lock.json
 
 #.bak
 *.bak
+
+# Visual Studio temporary files
+*.vs
+.vscode/
+*.suo
+*.user
+*.userprefs
+*.tss
+
+# Build directories
+bin/
+obj/
+**/bin/
+**/obj/
+
+# NuGet packages
+*.nupkg
+**/packages/*
+**/project.lock.json
+**/project.fragment.lock.json
+
+# Rider directories
+.idea/
+
+# Local history for JetBrains Rider
+.localhistory/
+
+# DotNet
+*.dbmdl
+*.dbproj
+*.dbp
+*.jfm
+
+# Publish output
+publish/
+
+# SQL Server files
+*.bin
+*.mdf
+*.ldf
+sql-data/
