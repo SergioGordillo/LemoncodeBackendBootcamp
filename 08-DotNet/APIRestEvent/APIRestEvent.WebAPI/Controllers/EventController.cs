@@ -25,5 +25,20 @@ namespace APIRestEvent.WebAPI.Controllers
             var events = await _context.Events.ToListAsync();
             return Ok(events);
         }
+
+        // GET: /api/event/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Event>> GetEventById(int id)
+        {
+            
+            var eventById = await _context.Events.FindAsync(id);
+
+            if (eventById == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(eventById);
+        }
     }
 }
