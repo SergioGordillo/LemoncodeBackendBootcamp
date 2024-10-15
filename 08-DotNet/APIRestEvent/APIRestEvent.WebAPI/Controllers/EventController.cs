@@ -40,5 +40,40 @@ namespace APIRestEvent.WebAPI.Controllers
 
             return Ok(eventById);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent([FromBody] Event newEvent)
+        {
+            if (newEvent == null)
+            {
+                return BadRequest("Event Data are required");
+            }
+
+            try
+            {
+                _context.Events.Add(newEvent);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEvent);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                if (dbEx.InnerException != null)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = "Error saving data in Database",
+                        innerMessage = dbEx.InnerException.Message,   
+                        innerStackTrace = dbEx.InnerException.StackTrace 
+                    });
+                }
+                else
+                {
+                    return StatusCode(500, "Error saving data in Database");
+                }
+            }
+
+
+        }
     }
 }
