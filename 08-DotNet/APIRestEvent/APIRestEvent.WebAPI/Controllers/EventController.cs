@@ -41,6 +41,7 @@ namespace APIRestEvent.WebAPI.Controllers
             return Ok(eventById);
         }
 
+        // /api/event
         [HttpPost]
         public async Task<IActionResult> CreateEvent([FromBody] Event newEvent)
         {
@@ -72,8 +73,88 @@ namespace APIRestEvent.WebAPI.Controllers
                     return StatusCode(500, "Error saving data in Database");
                 }
             }
+        }
 
+        // /api/event/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody] Event updatedEvent)
+        {
+            if (id != updatedEvent.Id)
+            {
+                return BadRequest("Event ID mismatch.");
+            }
 
+            var existingEvent = await _context.Events.FindAsync(id);
+
+            if (existingEvent == null)
+            {
+                return NotFound("Event not found.");
+            }
+
+            existingEvent.Name = updatedEvent.Name;
+            existingEvent.StartDate = updatedEvent.StartDate;
+            existingEvent.EndDate = updatedEvent.EndDate;
+            existingEvent.Description = updatedEvent.Description;
+            existingEvent.Participants = updatedEvent.Participants;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent(); 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                if (dbEx.InnerException != null)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = "Error updating event in the Database",
+                        innerMessage = dbEx.InnerException.Message,
+                        innerStackTrace = dbEx.InnerException.StackTrace
+                    });
+                }
+                else
+                {
+                    return StatusCode(500, "Error updating event in the Database");
+                }
+            }
+        }
+
+        // /api/event/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            var eventToDelete = await _context.Events.FindAsync(id);
+
+            if (eventToDelete == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Events.Remove(eventToDelete);
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                if (dbEx.InnerException != null)
+                {
+                    return StatusCode(500, new
+                    {
+                        message = "Error deleting event from the Database",
+                        innerMessage = dbEx.InnerException.Message,
+                        innerStackTrace = dbEx.InnerException.StackTrace
+                    });
+                }
+                else
+                {
+                    return StatusCode(500, "Error deleting event from the Database");
+                }
+            }
         }
     }
 }
