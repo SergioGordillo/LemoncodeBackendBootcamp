@@ -156,5 +156,78 @@ namespace APIRestEvent.WebAPI.Controllers
                 }
             }
         }
+
+        // GET: /api/event/{id}/participants
+        [HttpGet("{id}/participants")]
+        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantsByEventId(int id)
+        {
+            var eventById = await _context.Events
+                                       .Include(e => e.Participants)  
+                                       .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (eventById == null)
+            {
+                return NotFound($"Event with {id} dont exist");
+            }
+
+            return Ok(eventById.Participants);
+        }
+
+        // POST: /api/event/{id}/participants
+        [HttpPost("{id}/participants")]
+        public async Task<IActionResult> AddParticipantToEvent(int id, [FromBody] Participant participant)
+        {
+            var eventById = await _context.Events
+                                       .Include(e => e.Participants)
+                                       .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (eventById == null)
+            {
+                return NotFound($"Event with {id} dont exist");
+            }
+
+            if (eventById.Participants.Any(p => p.Id == participant.Id))
+            {
+                return BadRequest("Participant is already registered in this Event");
+            }
+
+            eventById.Participants.Add(participant);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetParticipantsByEventId), new { id = eventById.Id }, participant);
+        }
+
+        // DELETE: /api/event/{id}/participants/{participantId}
+        [HttpDelete("{id}/participants/{participantId}")]
+        public async Task<IActionResult> RemoveParticipantFromEvent(int id, int participantId)
+        {
+            var eventById = await _context.Events
+                                       .Include(e => e.Participants)
+                                       .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (eventById == null)
+            {
+                return NotFound($"Event with {id} dont exist");
+            }
+
+            var participantById = eventById.Participants.FirstOrDefault(p => p.Id == participantId);
+
+            if (participantById == null)
+            {
+                return NotFound($"Participant with ID {participantId} is not registered in the event with ID {id}.");
+
+            }
+
+            eventById.Participants.Remove(participantById);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+
+
+
     }
 }
