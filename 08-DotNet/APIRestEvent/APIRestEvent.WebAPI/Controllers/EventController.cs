@@ -20,7 +20,7 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // GET: /api/event
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEventos()
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
         {
             var events = await _context.Events.ToListAsync();
             return Ok(events);
