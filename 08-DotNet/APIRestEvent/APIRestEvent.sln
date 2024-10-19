@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIRestEvent.WebAPI", "APIRestEvent.WebAPI\APIRestEvent.WebAPI.csproj", "{48E9998B-2330-4B96-9D19-EEE4969C19B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIRestEvent.WebAPI", "APIRestEvent.WebAPI\APIRestEvent.WebAPI.csproj", "{48E9998B-2330-4B96-9D19-EEE4969C19B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIRestEvent.Tests", "APIRestEvent.Tests\APIRestEvent.Tests.csproj", "{E961529D-2E8C-4C1A-9C3F-12CABE4A14F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48E9998B-2330-4B96-9D19-EEE4969C19B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E961529D-2E8C-4C1A-9C3F-12CABE4A14F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E961529D-2E8C-4C1A-9C3F-12CABE4A14F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E961529D-2E8C-4C1A-9C3F-12CABE4A14F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E961529D-2E8C-4C1A-9C3F-12CABE4A14F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
