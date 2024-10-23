@@ -1,11 +1,11 @@
 {
   "name": "04-express",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "nodemon --exec ts-node --transpileOnly --esm src/index.ts",
+    "start": "run-p -l type-check:watch start-dev",
+    "start-dev": "tsx --watch src/index.ts",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     "type-check:watch": "npm run type-check -- --watch"
   },
@@ -17,9 +17,9 @@
     "express": "^4.21.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7",
+    "@types/express": "^5.0.0",
     "npm-run-all": "^4.1.5",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
 }
