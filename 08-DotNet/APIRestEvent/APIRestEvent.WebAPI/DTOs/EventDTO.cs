@@ -9,7 +9,7 @@
             public string Description { get; set; }
             public List<ParticipantDTO> Participants { get; set; }
 
-            public EventDTO(int id, string name, DateTime startDate, DateTime? endDate, string description, List<ParticipantDto> participants)
+            public EventDTO(int id, string name, DateTime startDate, DateTime? endDate, string description, List<ParticipantDTO> participants)
             {
                 Id = id;
                 Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentException("Name cannot be null or empty.", nameof(name));

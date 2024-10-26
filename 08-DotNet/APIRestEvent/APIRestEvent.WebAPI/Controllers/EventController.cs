@@ -3,6 +3,7 @@ using APIRestEvent.WebAPI.Models;
 using System;
 using APIRestEvent.WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using APIRestEvent.WebAPI.DTOs;
 
 namespace APIRestEvent.WebAPI.Controllers
 
@@ -20,15 +21,16 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // GET: /api/event
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        public async Task<ActionResult<IEnumerable<EventDTO>>> GetEvents()
         {
             var events = await _context.Events.ToListAsync();
-            return Ok(events);
+            var eventDTOs = events.Select(e => e.ToDto()).ToList();
+            return Ok(eventDTOs);
         }
 
         // GET: /api/event/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEventById(int id)
+        public async Task<ActionResult<EventDTO>> GetEventById(int id)
         {
             
             var eventById = await _context.Events.FindAsync(id);
@@ -38,17 +40,21 @@ namespace APIRestEvent.WebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(eventById);
+            var eventDTO = eventById.ToDto();
+
+            return Ok(eventDTO);
         }
 
         // /api/event
         [HttpPost]
-        public async Task<IActionResult> CreateEvent([FromBody] Event newEvent)
+        public async Task<IActionResult> CreateEvent([FromBody] EventDTO newEventDTO)
         {
-            if (newEvent == null)
+            if (newEventDTO == null)
             {
                 return BadRequest("Event Data are required");
             }
+
+            var newEvent = newEventDTO.ToEntity();
 
             try
             {
@@ -77,9 +83,9 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // /api/event/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent(int id, [FromBody] Event updatedEvent)
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody] EventDTO updatedEventDTO)
         {
-            if (id != updatedEvent.Id)
+            if (id != updatedEventDTO.Id)
             {
                 return BadRequest("Event ID mismatch.");
             }
@@ -91,11 +97,7 @@ namespace APIRestEvent.WebAPI.Controllers
                 return NotFound("Event not found.");
             }
 
-            existingEvent.Name = updatedEvent.Name;
-            existingEvent.StartDate = updatedEvent.StartDate;
-            existingEvent.EndDate = updatedEvent.EndDate;
-            existingEvent.Description = updatedEvent.Description;
-            existingEvent.Participants = updatedEvent.Participants;
+            existingEvent = updatedEventDTO.ToEntity();
 
             try
             {
@@ -159,7 +161,7 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // GET: /api/event/{id}/participants
         [HttpGet("{id}/participants")]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipantsByEventId(int id)
+        public async Task<ActionResult<IEnumerable<ParticipantDTO>>> GetParticipantsByEventId(int id)
         {
             var eventById = await _context.Events
                                        .Include(e => e.Participants)  
@@ -170,12 +172,14 @@ namespace APIRestEvent.WebAPI.Controllers
                 return NotFound($"Event with {id} dont exist");
             }
 
-            return Ok(eventById.Participants);
+            var participantDTOs = eventById.Participants.Select(p => p.ToDto()).ToList();
+
+            return Ok(participantDTOs);
         }
 
         // POST: /api/event/{id}/participants
         [HttpPost("{id}/participants")]
-        public async Task<IActionResult> AddParticipantToEvent(int id, [FromBody] Participant participant)
+        public async Task<IActionResult> AddParticipantToEvent(int id, [FromBody] ParticipantDTO participantDTO)
         {
             var eventById = await _context.Events
                                        .Include(e => e.Participants)
@@ -186,15 +190,17 @@ namespace APIRestEvent.WebAPI.Controllers
                 return NotFound($"Event with {id} dont exist");
             }
 
-            if (eventById.Participants.Any(p => p.Id == participant.Id))
+            if (eventById.Participants.Any(p => p.Id == participantDTO.Id))
             {
                 return BadRequest("Participant is already registered in this Event");
             }
 
-            eventById.Participants.Add(participant);
+            var participantEntity = participantDTO.ToEntity();
+
+            eventById.Participants.Add(participantEntity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetParticipantsByEventId), new { id = eventById.Id }, participant);
+            return CreatedAtAction(nameof(GetParticipantsByEventId), new { id = eventById.Id }, participantDTO);
         }
 
         // DELETE: /api/event/{id}/participants/{participantId}
