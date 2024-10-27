@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using APIRestEvent.WebAPI.Controllers;
 using APIRestEvent.WebAPI.Models;
 using APIRestEvent.WebAPI.Data;
+using APIRestEvent.WebAPI.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -36,7 +37,7 @@ namespace APIRestEvent.Tests
         }
 
         [Test]
-        public async Task GetParticipants_ReturnsOkResult_WithListOfParticipants()
+        public async Task GetParticipants_ReturnsOkResult_WithListOfParticipantsDTOs()
         {
             //Arrange
             var result = await _controller.GetParticipants();
@@ -46,10 +47,10 @@ namespace APIRestEvent.Tests
             //Assert
             Assert.IsNotNull(okResult, "Expected OkObjectResult, but got null");
             //Act
-            var participants = okResult.Value as List<Participant>;
+            var participantsDTOs = okResult.Value as List<ParticipantDTO>;
             //Assert
-            Assert.IsNotNull(participants, "Expected a list of participants, but got null");
-            Assert.AreEqual(2, participants.Count, "Expected 2 participants in the list");
+            Assert.IsNotNull(participantsDTOs, "Expected a list of participants, but got null");
+            Assert.AreEqual(2, participantsDTOs.Count, "Expected 2 participants in the list");
         }
 
     [TearDown]

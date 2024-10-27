@@ -2,6 +2,8 @@
 using APIRestEvent.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using APIRestEvent.WebAPI.DTOs;
+using Microsoft.Extensions.Logging;
 
 namespace APIRestEvent.WebAPI.Controllers
 {
@@ -20,15 +22,16 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // GET: /api/participant
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetParticipants()
+        public async Task<ActionResult<IEnumerable<ParticipantDTO>>> GetParticipants()
         {
             var participants = await _context.Participants.ToListAsync();
-            return Ok(participants);
+            var participantsDTOs = participants.Select(p => p.ToDto()).ToList();
+            return Ok(participantsDTOs);
         }
 
         // GET: /api/participant/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Participant>> GetParticipantById(int id)
+        public async Task<ActionResult<ParticipantDTO>> GetParticipantById(int id)
         {
             var participantById = await _context.Participants.FindAsync(id);
 
@@ -37,25 +40,27 @@ namespace APIRestEvent.WebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(participantById);
+            var participantDTO = participantById.ToDto();
+
+            return Ok(participantDTO);
         }
 
         // POST /api/participant
         [HttpPost]
-        public async Task<IActionResult> CreateParticipant([FromBody] Participant newParticipant)
+        public async Task<IActionResult> CreateParticipant([FromBody] ParticipantDTO newParticipantDTO)
         {
-            if (newParticipant == null) {
+            if (newParticipantDTO == null) {
                 return BadRequest("Participant Data are required");
             }
 
-            var participant = newParticipant;
+            var newParticipant = newParticipantDTO.ToEntity();
 
             try
             {
-                _context.Participants.Add(participant);
+                _context.Participants.Add(newParticipant);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetParticipantById), new { id = newParticipant.Id }, newParticipant);
+                return CreatedAtAction(nameof(GetParticipantById), new { id = newParticipant.Id }, newParticipantDTO);
             }
             catch (DbUpdateException dbEx)
             {
@@ -78,9 +83,9 @@ namespace APIRestEvent.WebAPI.Controllers
 
         // PUT: /api/participant/{id}
         [HttpPut]
-        public async Task<IActionResult> UpdateParticipant(int id, [FromBody] Participant updatedParticipant)
+        public async Task<IActionResult> UpdateParticipant(int id, [FromBody] ParticipantDTO updatedParticipantDTO)
         {
-                if (id != updatedParticipant.Id)
+                if (id != updatedParticipantDTO.Id)
                 {
                     return BadRequest("Participant ID mismatch.");
                 }
@@ -92,11 +97,7 @@ namespace APIRestEvent.WebAPI.Controllers
                     return NotFound("Participant not found.");
                 }
 
-                existingParticipant.Id = id;
-                existingParticipant.Name = updatedParticipant.Name;
-                existingParticipant.LastName = updatedParticipant.LastName;
-                existingParticipant.Email = updatedParticipant.Email;
-                existingParticipant.Events = updatedParticipant.Events;
+                existingParticipant = updatedParticipantDTO.ToEntity();
 
             try
             {

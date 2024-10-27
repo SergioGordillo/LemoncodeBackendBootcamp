@@ -6,13 +6,16 @@ public static class MappingExtensions
     // Mappers de entidad a DTO
     public static EventDTO ToDto(this Event eventEntity)
     {
+
+        if (eventEntity == null) return null;
+
         return new EventDTO(
            eventEntity.Id,
            eventEntity.Name,
            eventEntity.StartDate,
            eventEntity.EndDate,
            eventEntity.Description,
-           eventEntity.Participants.Select(p => p.ToDto()).ToList()
+           (eventEntity.Participants ?? new List<Participant>()).Select(p => p.ToDto()).ToList()
         );
     }
 

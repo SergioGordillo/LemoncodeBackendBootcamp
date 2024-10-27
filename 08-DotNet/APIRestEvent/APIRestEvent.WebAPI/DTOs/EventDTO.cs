@@ -16,7 +16,7 @@
                 StartDate = startDate;
                 EndDate = endDate; 
                 Description = !string.IsNullOrWhiteSpace(description) ? description : throw new ArgumentException("Description cannot be null or empty.", nameof(description));
-                Participants = participants ?? throw new ArgumentNullException("Participants cannot be null.", nameof(participants));
+                Participants = participants ?? new List<ParticipantDTO>();
             }
         }
  }

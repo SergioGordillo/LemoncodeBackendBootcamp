@@ -24,6 +24,12 @@ namespace APIRestEvent.WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<EventDTO>>> GetEvents()
         {
             var events = await _context.Events.ToListAsync();
+
+            if (events == null || !events.Any())
+            {
+                return NotFound("No events found.");
+            }
+
             var eventDTOs = events.Select(e => e.ToDto()).ToList();
             return Ok(eventDTOs);
         }
@@ -61,7 +67,7 @@ namespace APIRestEvent.WebAPI.Controllers
                 _context.Events.Add(newEvent);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEvent);
+                return CreatedAtAction(nameof(GetEventById), new { id = newEvent.Id }, newEventDTO);
             }
             catch (DbUpdateException dbEx)
             {
