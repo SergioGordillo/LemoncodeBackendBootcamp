@@ -26,7 +26,7 @@ public static class MappingExtensions
            participantEntity.Name,
            participantEntity.LastName,
            participantEntity.Email,
-           participantEntity.Events.Select(e => e.ToDto()).ToList()
+           (participantEntity.Events ?? new List<Event>()).Select(p => p.ToDto()).ToList()
         );
     }
 

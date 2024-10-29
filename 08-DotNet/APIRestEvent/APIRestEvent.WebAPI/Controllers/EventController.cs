@@ -23,7 +23,7 @@ namespace APIRestEvent.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDTO>>> GetEvents()
         {
-            var events = await _context.Events.ToListAsync();
+            var events = await _context.Events.Include(e => e.Participants).AsNoTracking().ToListAsync();
 
             if (events == null || !events.Any())
             {

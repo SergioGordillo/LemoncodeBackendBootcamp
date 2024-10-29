@@ -17,7 +17,12 @@ namespace APIRestEvent.WebAPI.Data
         {
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.Participants)
-                .WithMany(p => p.Events);
+                .WithMany(p => p.Events)
+                .UsingEntity<Dictionary<string, object>>(
+                    "EventParticipant", // Nombre de la tabla de unión
+                    j => j.HasOne<Participant>().WithMany().HasForeignKey("ParticipantsId"),
+                    j => j.HasOne<Event>().WithMany().HasForeignKey("EventsId")
+        );
 
             modelBuilder.Entity<Event>()
                 .Property(e => e.StartDate)
