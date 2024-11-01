@@ -55,4 +55,63 @@ public static class MappingExtensions
             participantEntity.Email
         );
     }
+
+    //Mappers de DTO a Entidad
+    public static Event ToEntity(this EventDTO eventDto)
+    {
+        if (eventDto == null) return null;
+
+        return new Event
+        {
+            Id = eventDto.Id,
+            Name = eventDto.Name,
+            StartDate = eventDto.StartDate,
+            EndDate = eventDto.EndDate,
+            Description = eventDto.Description,
+            Participants = eventDto.Participants?.Select(p => p.ToEntity()).ToList() ?? new List<Participant>()
+        };
+    }
+
+    public static Participant ToEntity(this ParticipantDTO participantDto)
+    {
+        if (participantDto == null) return null;
+
+        return new Participant
+        {
+            Id = participantDto.Id,
+            Name = participantDto.Name,
+            LastName = participantDto.LastName,
+            Email = participantDto.Email,
+            Events = participantDto.Events?.Select(e => e.ToEntity()).ToList() ?? new List<Event>()
+        };
+    }
+
+    public static Event ToEntity(this BaseEventDTO baseEventDto)
+    {
+        if (baseEventDto == null) return null;
+
+        return new Event
+        {
+            Id = baseEventDto.Id,
+            Name = baseEventDto.Name,
+            StartDate = baseEventDto.StartDate,
+            EndDate = baseEventDto.EndDate,
+            Description = baseEventDto.Description,
+            Participants = new List<Participant>()
+        };
+    }
+
+    public static Participant ToEntity(this BaseParticipantDTO baseParticipantDto)
+    {
+        if (baseParticipantDto == null) return null;
+
+        return new Participant
+        {
+            Id = baseParticipantDto.Id,
+            Name = baseParticipantDto.Name,
+            LastName = baseParticipantDto.LastName,
+            Email = baseParticipantDto.Email,
+            Events = new List<Event>()
+        };
+    }
 }
