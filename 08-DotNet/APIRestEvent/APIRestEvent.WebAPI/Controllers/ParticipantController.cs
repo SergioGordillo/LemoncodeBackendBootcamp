@@ -24,7 +24,13 @@ namespace APIRestEvent.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ParticipantDTO>>> GetParticipants()
         {
-            var participants = await _context.Participants.ToListAsync();
+            var participants = await _context.Participants.Include(p => p.Events).AsNoTracking().ToListAsync();
+
+            if (participants == null || !participants.Any())
+            {
+                return NotFound("No participants found.");
+            }
+
             var participantsDTOs = participants.Select(p => p.ToDto()).ToList();
             return Ok(participantsDTOs);
         }
@@ -33,7 +39,10 @@ namespace APIRestEvent.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ParticipantDTO>> GetParticipantById(int id)
         {
-            var participantById = await _context.Participants.FindAsync(id);
+            var participantById = await _context.Participants
+                           .Include(p => p.Events)
+                           .AsNoTracking()
+                           .SingleOrDefaultAsync(p => p.Id == id);
 
             if (participantById == null)
             {

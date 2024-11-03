@@ -38,8 +38,11 @@ namespace APIRestEvent.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EventDTO>> GetEventById(int id)
         {
-            
-            var eventById = await _context.Events.FindAsync(id);
+
+            var eventById = await _context.Events
+                            .Include(e => e.Participants)
+                            .AsNoTracking()
+                            .SingleOrDefaultAsync(e => e.Id == id);
 
             if (eventById == null)
             {
@@ -96,14 +99,33 @@ namespace APIRestEvent.WebAPI.Controllers
                 return BadRequest("Event ID mismatch.");
             }
 
-            var existingEvent = await _context.Events.FindAsync(id);
+            var existingEvent = await _context.Events
+                                .Include(e => e.Participants)
+                                .SingleOrDefaultAsync(e => e.Id == id);
 
             if (existingEvent == null)
             {
                 return NotFound("Event not found.");
             }
 
-            existingEvent = updatedEventDTO.ToEntity();
+            existingEvent.Name = updatedEventDTO.Name;
+            existingEvent.StartDate = updatedEventDTO.StartDate;
+            existingEvent.EndDate = updatedEventDTO.EndDate;
+            existingEvent.Description = updatedEventDTO.Description;
+
+            foreach (var participantDTO in updatedEventDTO.Participants)
+            {
+                var existingParticipant = existingEvent.Participants
+                    .FirstOrDefault(p => p.Id == participantDTO.Id);
+
+                if (existingParticipant != null)
+                {
+                    existingParticipant.Name = participantDTO.Name;
+                    existingParticipant.LastName = participantDTO.LastName;
+                    existingParticipant.Email = participantDTO.Email;
+                    Console.WriteLine($"Updated participant {existingParticipant.Id}: {existingParticipant.Name}");
+                }
+            }
 
             try
             {
