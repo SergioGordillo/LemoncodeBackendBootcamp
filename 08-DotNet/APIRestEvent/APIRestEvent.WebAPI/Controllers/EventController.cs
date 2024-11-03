@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using APIRestEvent.WebAPI.Models;
-using System;
 using APIRestEvent.WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using APIRestEvent.WebAPI.DTOs;
@@ -123,7 +122,6 @@ namespace APIRestEvent.WebAPI.Controllers
                     existingParticipant.Name = participantDTO.Name;
                     existingParticipant.LastName = participantDTO.LastName;
                     existingParticipant.Email = participantDTO.Email;
-                    Console.WriteLine($"Updated participant {existingParticipant.Id}: {existingParticipant.Name}");
                 }
             }
 
@@ -211,7 +209,7 @@ namespace APIRestEvent.WebAPI.Controllers
         {
             var eventById = await _context.Events
                                        .Include(e => e.Participants)
-                                       .FirstOrDefaultAsync(e => e.Id == id);
+                                       .SingleOrDefaultAsync(e => e.Id == id);
 
             if (eventById == null)
             {
@@ -223,9 +221,15 @@ namespace APIRestEvent.WebAPI.Controllers
                 return BadRequest("Participant is already registered in this Event");
             }
 
-            var participantEntity = participantDTO.ToEntity();
+            var newParticipant = new Participant
+            {
+                Name = participantDTO.Name,
+                LastName = participantDTO.LastName,
+                Email = participantDTO.Email,
+                Events = new List<Event> { eventById }
+            };
 
-            eventById.Participants.Add(participantEntity);
+            eventById.Participants.Add(newParticipant);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetParticipantsByEventId), new { id = eventById.Id }, participantDTO);

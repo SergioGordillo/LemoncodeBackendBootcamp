@@ -1,9 +1,7 @@
 ﻿using APIRestEvent.WebAPI.Data;
-using APIRestEvent.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIRestEvent.WebAPI.DTOs;
-using Microsoft.Extensions.Logging;
 
 namespace APIRestEvent.WebAPI.Controllers
 {
@@ -99,14 +97,32 @@ namespace APIRestEvent.WebAPI.Controllers
                     return BadRequest("Participant ID mismatch.");
                 }
 
-                var existingParticipant = await _context.Participants.FindAsync(id);
+                var existingParticipant = await _context.Participants
+                                .Include(p => p.Events)
+                                .SingleOrDefaultAsync(p => p.Id == id);
 
-                if (existingParticipant == null)
+            if (existingParticipant == null)
                 {
                     return NotFound("Participant not found.");
                 }
 
-                existingParticipant = updatedParticipantDTO.ToEntity();
+            existingParticipant.Name = updatedParticipantDTO.Name;
+            existingParticipant.LastName = updatedParticipantDTO.LastName;
+            existingParticipant.Email = updatedParticipantDTO.Email;
+
+            foreach (var eventDTO in updatedParticipantDTO.Events)
+            {
+                var existingEvent = existingParticipant.Events
+                    .FirstOrDefault(e => e.Id == eventDTO.Id);
+
+                if (existingEvent != null)
+                {
+                    existingEvent.Name = eventDTO.Name;
+                    existingEvent.StartDate = eventDTO.StartDate;
+                    existingEvent.EndDate = eventDTO.EndDate;
+                    existingEvent.Description = eventDTO.Description;
+                }
+            }
 
             try
             {
