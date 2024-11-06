@@ -1,7 +1,8 @@
 import express from "express";
-import { getBookList, getBook } from "./mock-db.js";
+import { getBookList, getBook, insertBook } from "./mock-db.js";
 
 const app = express();
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("My web works!!!");
@@ -17,6 +18,12 @@ app.get("/api/books/:id", async (req, res) => {
   const bookId = Number(id);
   const book = await getBook(bookId);
   res.send(book);
+});
+
+app.post("/api/books", async (req, res) => {
+  const bookRequest = req.body;
+  const newBook = await insertBook(bookRequest);
+  res.status(201).send(newBook);
 });
 
 app.listen("3000", () => {
