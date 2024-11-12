@@ -9,6 +9,11 @@ app.use(express.json());
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, "../public")));
 
+app.use(async (req, res, next) => {
+  console.log("show me req.url", req.url);
+  next();
+});
+
 app.use("/api/books", booksAPI);
 
 app.listen("3000", () => {
