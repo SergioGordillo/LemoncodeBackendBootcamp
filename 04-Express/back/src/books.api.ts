@@ -13,7 +13,6 @@ booksAPI
   .get("/", async (req, res, next) => {
     try {
       const bookList = await getBookList();
-      throw Error("simulating error");
       res.send(bookList);
     } catch (error) {
       next(error);
