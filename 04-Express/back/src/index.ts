@@ -2,14 +2,17 @@ import express from "express";
 import path from "path";
 import url from "url";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { booksAPI } from "./books.api.js";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     methods: "GET",
     origin: "http://localhost:8081",
+    credentials: true,
   })
 );
 
