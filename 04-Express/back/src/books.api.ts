@@ -12,7 +12,14 @@ export const booksAPI = Router();
 booksAPI
   .get("/", async (req, res, next) => {
     try {
-      const bookList = await getBookList();
+      const page = Number(req?.query?.page);
+      const pageSize = Number (req?.query?.pageSize);
+      let bookList = await getBookList();
+      if(page&&pageSize){
+        const startIndex = (page-1)*pageSize;
+        const endIndex = Math.min(startIndex + pageSize, bookList.length);
+        bookList = bookList.slice(startIndex, endIndex);
+      }
       res.send(bookList);
     } catch (error) {
       next(error);
