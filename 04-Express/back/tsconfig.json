@@ -5,7 +5,11 @@
         "moduleResolution": "NodeNext",
         "skipLibCheck": true,
         "isolatedModules": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "baseUrl": "./src",
+        "paths": {
+            "#*": ["*"]
+        },
     }, 
     "include": ["back/src/**/*"]
 }

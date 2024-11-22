@@ -1,11 +1,6 @@
 import { Router } from "express";
-import {
-  getBookList,
-  getBook,
-  insertBook,
-  updateBook,
-  deleteBook,
-} from "./mock-db.js";
+import { bookRepository } from "./dals/index.js";
+import { getBook, insertBook, updateBook, deleteBook } from "./mock-db.js";
 
 export const booksAPI = Router();
 
@@ -13,10 +8,10 @@ booksAPI
   .get("/", async (req, res, next) => {
     try {
       const page = Number(req?.query?.page);
-      const pageSize = Number (req?.query?.pageSize);
-      let bookList = await getBookList();
-      if(page&&pageSize){
-        const startIndex = (page-1)*pageSize;
+      const pageSize = Number(req?.query?.pageSize);
+      let bookList = await bookRepository.getBookList();
+      if (page && pageSize) {
+        const startIndex = (page - 1) * pageSize;
         const endIndex = Math.min(startIndex + pageSize, bookList.length);
         bookList = bookList.slice(startIndex, endIndex);
       }
