@@ -21,7 +21,7 @@ export const db: DB = {
     {
       id: "3",
       title: "The Witcher - The Last Wish",
-      releaseDate: new Date("1993-11/-02"),
+      releaseDate: new Date("1993-11-02"),
       author: "Andrzej Sapkowski",
     },
     {

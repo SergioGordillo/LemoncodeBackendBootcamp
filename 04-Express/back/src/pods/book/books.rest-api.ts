@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { bookRepository } from "./dals/index.js";
-import { getBook, insertBook, updateBook, deleteBook } from "./mock-db.js";
+import { bookRepository } from "../../dals/index.js";
+import { mapBookListFromModelToApi } from "./book.mappers.js";
+import { getBook, insertBook, updateBook, deleteBook } from "../../mock-db.js";
 
 export const booksAPI = Router();
 
@@ -15,7 +16,7 @@ booksAPI
         const endIndex = Math.min(startIndex + pageSize, bookList.length);
         bookList = bookList.slice(startIndex, endIndex);
       }
-      res.send(bookList);
+      res.send(mapBookListFromModelToApi(bookList));
     } catch (error) {
       next(error);
     }
