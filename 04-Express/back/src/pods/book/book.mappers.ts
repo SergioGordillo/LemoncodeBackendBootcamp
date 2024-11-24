@@ -8,6 +8,13 @@ export const mapBookFromModelToApi = (book: model.Book): apiModel.Book => ({
   author: book.author,
 });
 
+export const mapBookFromApiToModel = (book: apiModel.Book): model.Book => ({
+  id: book.id,
+  title: book.title,
+  releaseDate: new Date(book.releaseDate),
+  author: book.author,
+});
+
 export const mapBookListFromModelToApi = (
   bookList: model.Book[]
 ): apiModel.Book[] => bookList.map(mapBookFromModelToApi);
