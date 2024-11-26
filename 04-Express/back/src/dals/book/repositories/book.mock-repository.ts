@@ -18,7 +18,7 @@ const updateBook = async (book: Book) => {
   return book;
 };
 
-const paginateBookList = (bookList: Book[], page: number, pageSize: number) => {
+const paginateBookList = (bookList: Book[], page: number, pageSize: number): Book[] => {
   let paginatedBookList = [...bookList];
   if (page && pageSize) {
     const startIndex = (page - 1) * pageSize;
@@ -29,7 +29,7 @@ const paginateBookList = (bookList: Book[], page: number, pageSize: number) => {
 };
 
 export const mockRepository: BookRepository = {
-  getBookList: async () => db.books,
+  getBookList: async (page = 1, pageSize = 10) => paginateBookList(db.books, page, pageSize),
   getBook: async (id: string) => {
     const book = db.books.find((b) => b.id === id);
     if (!book) throw new Error(`Book with id ${id} not found`);

@@ -13,12 +13,7 @@ booksAPI
     try {
       const page = Number(req?.query?.page);
       const pageSize = Number(req?.query?.pageSize);
-      let bookList = await bookRepository.getBookList();
-      if (page && pageSize) {
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = Math.min(startIndex + pageSize, bookList.length);
-        bookList = bookList.slice(startIndex, endIndex);
-      }
+      const bookList = await bookRepository.getBookList(page, pageSize);
       res.send(mapBookListFromModelToApi(bookList));
     } catch (error) {
       next(error);
