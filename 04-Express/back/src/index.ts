@@ -1,9 +1,11 @@
 import express from "express";
 import path from "path";
 import url from "url";
+import { logErrorRequestMiddleware, logRequestMiddleware } from "#common/middlewares/logger.middlewares.js";
 import { createRestApiServer } from "#core/servers/index.js";
 import { envConstants } from "#core/constants/env.constants.js";
 import { booksAPI } from "./pods/book/index.js";
+
 
 const restApiServer = createRestApiServer();
 
@@ -13,17 +15,11 @@ restApiServer.use(
   express.static(path.resolve(__dirname, envConstants.STATIC_FILES_PATH))
 );
 
-restApiServer.use(async (req, res, next) => {
-  console.log("show me req.url", req.url);
-  next();
-});
+restApiServer.use(logRequestMiddleware);
 
 restApiServer.use("/api/books", booksAPI);
 
-restApiServer.use(async (error, req, res, next) => {
-  console.log(error);
-  res.sendStatus(500);
-});
+restApiServer.use(logErrorRequestMiddleware);
 
 restApiServer.listen(envConstants.PORT, () => {
   console.log(`Server is running on port ${envConstants.PORT}`);
