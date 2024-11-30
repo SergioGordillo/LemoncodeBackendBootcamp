@@ -1,7 +1,19 @@
 import inquirer from "inquirer";
 
-const answer = await inquirer.prompt({
-  name: "user",
-  type: "input",
-  message: "User name:",
-});
+let exit = false;
+
+while (!exit) {
+  const answer = await inquirer.prompt({
+    name: "consoleRunner",
+    type: "list",
+    message: "Which console runner do you want to run?",
+    choices: ["create-admin", "exit"],
+  });
+
+  if (answer.consoleRunner !== "exit") {
+    const { run } = await import(`./${answer.consoleRunner}.runner.js`);
+    await run();
+  } else {
+    exit = true;
+  }
+}
