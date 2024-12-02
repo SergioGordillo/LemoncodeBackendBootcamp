@@ -4,9 +4,10 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "run-p -l type-check:watch start-dev",
-    "start-dev": "tsx --watch src/index.ts",
+    "start": "run-p -l type-check:watch start:dev start:local-db",
+    "start:dev": "tsx --watch src/index.ts",
     "start:console-runners": "tsx --watch src/console-runners/index.ts",
+    "start:local-db": "docker compose up -d",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     "type-check:watch": "npm run type-check -- --watch"
   },
