@@ -130,3 +130,6 @@ publish/
 *.mdf
 *.ldf
 sql-data/
+
+# MongoDataFiles
+mongo-data
