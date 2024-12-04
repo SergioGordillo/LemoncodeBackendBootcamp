@@ -8,5 +8,6 @@ export const envConstants = {
   STATIC_FILES_PATH: process.env.STATIC_FILES_PATH || "public",
   CORS_ORIGIN: process.env.CORS_ORIGIN,
   CORS_METHOD: process.env.CORS_METHOD,
-  isApiMock: process.env.API_MOCK === "true"
+  isApiMock: process.env.API_MOCK === "true",
+  MONGODB_URI: process.env.MONGODB_URI,
 };
