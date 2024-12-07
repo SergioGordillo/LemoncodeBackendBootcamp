@@ -1,11 +1,7 @@
 import express from "express";
 import path from "path";
 import url from "url";
-import {
-  connectToDBServer,
-  db,
-  ensureMongoDBURI,
-} from "#core/constants/index.js";
+import { connectToDBServer, ensureMongoDBURI } from "#core/constants/index.js";
 import {
   logErrorRequestMiddleware,
   logRequestMiddleware,
@@ -32,10 +28,9 @@ restApiServer.listen(envConstants.PORT, async () => {
   if (envConstants.isApiMock) {
     console.log("Running Api Mock");
   } else {
-    console.log("Running MongoDB");
     try {
       await connectToDBServer(ensureMongoDBURI(envConstants.MONGODB_URI));
-      const result = await db.collection("books").insertOne({ name: "Book 2" });
+      console.log("Connected to DB");
     } catch (error) {
       console.error(
         "Error connecting to MongoDB or inserting document:",
