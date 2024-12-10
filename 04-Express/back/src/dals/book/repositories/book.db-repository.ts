@@ -18,12 +18,24 @@ export const dbRepository: BookRepository = {
   getBook: async (id: string) => {
     throw new Error("Not implemented");
   },
-  saveBook: async (book: Book) => {
-    const { insertedId } = await db.collection<Book>("books").insertOne(book);
-    return {
-      ...book,
-      _id: insertedId,
-    };
+  saveBook: async (book: Book): Promise<Book> => {
+    const result = await db.collection<Book>("books").findOneAndUpdate(
+      {
+        _id: book._id,
+      },
+      {
+        $set: book,
+      },
+      {
+        upsert: true,
+        returnDocument: "after",
+      }
+    );
+
+    if (!result) {
+      throw new Error("Error saving or updating the book");
+    }
+    return result;
   },
   deleteBook: async (id: string) => {
     throw new Error("Not implemented");
