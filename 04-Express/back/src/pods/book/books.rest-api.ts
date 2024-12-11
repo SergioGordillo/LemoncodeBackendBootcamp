@@ -27,7 +27,9 @@ booksAPI
         sameSite: "none",
         secure: true,
       });
-      res.send(mapBookFromModelToApi(book));
+      if (book) {
+        res.send(mapBookFromModelToApi(book));
+      }
     } catch (error) {
       next(error);
     }
