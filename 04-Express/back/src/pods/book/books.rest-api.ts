@@ -5,6 +5,7 @@ import {
   mapBookFromApiToModel,
   mapBookListFromModelToApi,
 } from "./book.mappers.js";
+import { getBookContext } from "../../dals/book/book.context.js";
 
 export const booksAPI = Router();
 
@@ -29,6 +30,8 @@ booksAPI
       });
       if (book) {
         res.send(mapBookFromModelToApi(book));
+      } else {
+        res.sendStatus(404);
       }
     } catch (error) {
       next(error);
@@ -46,9 +49,13 @@ booksAPI
   .put("/:id", async (req, res, next) => {
     try {
       const { id } = req.params;
-      const book = mapBookFromApiToModel({ ...req.body, id });
-      await bookRepository.saveBook(book);
-      res.sendStatus(204);
+      if (await bookRepository.getBook(id)) {
+        const book = mapBookFromApiToModel({ ...req.body, id });
+        await bookRepository.saveBook(book);
+        res.sendStatus(204);
+      } else {
+        res.sendStatus(404);
+      }
     } catch (error) {
       next(error);
     }
