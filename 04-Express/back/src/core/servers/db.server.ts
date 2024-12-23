@@ -2,7 +2,7 @@ import { Db, MongoClient } from "mongodb";
 
 let client: MongoClient;
 
-const connect = async (connectionURL: string) => {
+export const connect = async (connectionURL: string) => {
   client = new MongoClient(connectionURL);
   await client.connect();
   dbServer.db = client.db();

@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import url from "url";
-import { connectToDBServer, ensureMongoDBURI } from "#core/constants/index.js";
+import { connect, ensureMongoDBURI } from "#core/constants/index.js";
 import {
   logErrorRequestMiddleware,
   logRequestMiddleware,
@@ -29,7 +29,7 @@ restApiServer.listen(envConstants.PORT, async () => {
     console.log("Running Api Mock");
   } else {
     try {
-      await connectToDBServer(ensureMongoDBURI(envConstants.MONGODB_URI));
+      await connect(ensureMongoDBURI(envConstants.MONGODB_URI));
       console.log("Connected to DB");
     } catch (error) {
       console.error(
