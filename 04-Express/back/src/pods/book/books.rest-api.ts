@@ -1,21 +1,37 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import { bookRepository } from "../../dals/index.js";
 import {
   mapBookFromModelToApi,
   mapBookFromApiToModel,
   mapBookListFromModelToApi,
 } from "./book.mappers.js";
-import { getBookContext } from "../../dals/book/book.context.js";
 
 export const booksAPI = Router();
 
 booksAPI
-  .get("/", async (req, res, next) => {
+  .get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const page = Number(req?.query?.page);
-      const pageSize = Number(req?.query?.pageSize);
-      const bookList = await bookRepository.getBookList(page, pageSize);
-      res.send(mapBookListFromModelToApi(bookList));
+      const authorizationHeader = req.headers.authorization;
+      const token = authorizationHeader
+        ? authorizationHeader.split(" ")[1]
+        : null;
+      const secret = "my-secret";
+
+      if (!token) {
+        return res.sendStatus(401); // No token provided
+      }
+
+      jwt.verify(token, secret, async (error, UserSession) => {
+        if (UserSession) {
+          const page = Number(req?.query?.page);
+          const pageSize = Number(req?.query?.pageSize);
+          const bookList = await bookRepository.getBookList(page, pageSize);
+          res.send(mapBookListFromModelToApi(bookList));
+        } else {
+          res.sendStatus(401);
+        }
+      });
     } catch (error) {
       next(error);
     }

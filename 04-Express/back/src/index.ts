@@ -9,6 +9,7 @@ import {
 import { createRestApiServer } from "#core/servers/index.js";
 import { envConstants } from "#core/constants/env.constants.js";
 import { booksAPI } from "./pods/book/index.js";
+import { securityAPI } from "./pods/security/security.rest-api.js";
 
 const restApiServer = createRestApiServer();
 
@@ -20,6 +21,7 @@ restApiServer.use(
 
 restApiServer.use(logRequestMiddleware);
 
+restApiServer.use("/api/security", securityAPI);
 restApiServer.use("/api/books", booksAPI);
 
 restApiServer.use(logErrorRequestMiddleware);

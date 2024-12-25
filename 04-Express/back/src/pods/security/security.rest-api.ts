@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const securityAPI = Router();
 
-securityAPI.post("login", async (req, res, next) => {
+securityAPI.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await mockRepository.getUserByEmailAndPassword(

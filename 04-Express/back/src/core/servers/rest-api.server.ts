@@ -6,6 +6,7 @@ import {envConstants} from "../constants/index.js"
 export const createRestApiServer = () => {
     const restApiServer = express();
     restApiServer.use(express.json());
+    restApiServer.use(express.urlencoded({ extended: true }));
     restApiServer.use(cookieParser());
     restApiServer.use(
     cors({
