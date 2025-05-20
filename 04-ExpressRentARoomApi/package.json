@@ -1,0 +1,14 @@
+{
+  "name": "04-expressrentroomapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index"
+  },
+  "author": "Sergio Gordillo",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

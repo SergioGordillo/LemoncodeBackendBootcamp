@@ -12,14 +12,11 @@ export const booksAPI = Router();
 booksAPI
   .get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const authorizationHeader = req.headers.authorization;
-      const token = authorizationHeader
-        ? authorizationHeader.split(" ")[1]
-        : null;
+     
       const secret = "my-secret";
 
       if (!token) {
-        return res.sendStatus(401); // No token provided
+        return res.sendStatus(401); 
       }
 
       jwt.verify(token, secret, async (error, UserSession) => {
