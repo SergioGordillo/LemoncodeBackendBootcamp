@@ -133,3 +133,6 @@ sql-data/
 
 # MongoDataFiles
 mongo-data
+
+#DBFolders
+airbnb-backup/

@@ -1,0 +1,13 @@
+services:
+  mongo:
+    image: mongo:8.0.10
+    container_name: rentaroom-mongo
+    ports:
+      - "27017:27017" 
+    volumes:
+      - ./rentaroomdb:/opt/app/rentaroomdb   # BackUp to restore
+      - mongo_data:/data/db                  # Volume to have persistence of database
+volumes:
+  mongo_data:
+
+
