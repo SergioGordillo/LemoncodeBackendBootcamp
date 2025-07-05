@@ -6,6 +6,9 @@
     "start": "node src/index",
     "start:local-db": "docker compose up -d"
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "author": "Sergio Gordillo",
   "license": "ISC",
   "description": "",
