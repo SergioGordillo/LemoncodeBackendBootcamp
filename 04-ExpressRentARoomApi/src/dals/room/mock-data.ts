@@ -1,7 +1,11 @@
 import type { Room } from "./room.model";
 
-export const roomsMock: Room[] = [
-  {
+export interface DB {
+  rooms: Room[];
+}
+
+export const db: DB = {
+  rooms: [{
     _id: "65097600a74000a4a4a22686",
     listing_url: "https://www.airbnb.com/rooms/10006546",
     name: "Ribeira Charming Duplex",
@@ -111,7 +115,6 @@ export const roomsMock: Room[] = [
       },
     ],
   },
-  // 4 más, con variaciones menores:
   {
     _id: "65097600a74000a4a4a22687",
     listing_url: "https://www.airbnb.com/rooms/10006547",
@@ -484,4 +487,6 @@ export const roomsMock: Room[] = [
       },
     ],
   },
-];
+],
+}
+  
