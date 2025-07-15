@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { roomMockRepository } from "#dals/index.js";
+import { Room, roomMockRepository } from "#dals/index.js";
 import { mapRoomFromModelToApi } from "./room.mappers.js";
 
 export const roomApi = Router();
@@ -10,7 +10,7 @@ roomApi.get("/", async (req, res, next) => {
     const pageSize = Number(req.query.pageSize);
     const roomList = await roomMockRepository.getRoomList(page, pageSize);
     res.send({
-      data: roomList.map((room) => mapRoomFromModelToApi(room)),
+      data: roomList.map((room: Room) => mapRoomFromModelToApi(room)),
     });
   } catch (error) {
     next(error);
