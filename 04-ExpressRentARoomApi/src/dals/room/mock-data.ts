@@ -1,4 +1,4 @@
-import type { Room } from "./room.model";
+import type { Room } from "./room.model.js";
 
 export interface DB {
   rooms: Room[];

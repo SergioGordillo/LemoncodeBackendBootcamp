@@ -1,11 +1,14 @@
-import { db } from "../mock-data";
-import { Room } from "../room.model";
-import { RoomRepository } from "./room.repository";
+import { db } from "../mock-data.js";
+import { Room } from "../room.model.js";
+import { RoomRepository } from "./room.repository.js";
 
 export const roomMockRepository: RoomRepository = {
-  getRoomList: async (page?: number, pageSize?: number) =>
-    paginateRoomList(db.rooms, page, pageSize),
-    getRoom: async (id: string) => db.rooms.find((r) => r._id === id),
+  getRoomList: async (page?: number, pageSize?: number) => {
+    const safePage = page ?? 1;
+    const safePageSize = pageSize ?? 10;
+    return paginateRoomList(db.rooms, safePage, safePageSize);
+  },
+   getRoom: async (id: string) => db.rooms.find((r) => r._id === id),
 };
 
 const paginateRoomList = (
