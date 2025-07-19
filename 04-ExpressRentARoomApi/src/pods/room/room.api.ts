@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Room, roomMockRepository } from "#dals/index.js";
 import { mapRoomFromModelToApi } from "./room.mappers.js";
+import { mapRoomToRoomDetailApiModel } from "./detail/room-detail.mappers.js";
 
 export const roomApi = Router();
 
@@ -12,6 +13,22 @@ roomApi.get("/", async (req, res, next) => {
     res.send({
       data: roomList.map((room: Room) => mapRoomFromModelToApi(room)),
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+roomApi.get("/:id", async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const room = await roomMockRepository.getRoom(id);
+    if (!room) {
+      return res.status(404).send({
+        message: `Room with id ${id} not found.`,
+      });
+    }
+  const roomAPIModel = mapRoomToRoomDetailApiModel(room);
+      res.send({ data: roomAPIModel });
   } catch (error) {
     next(error);
   }
