@@ -2,7 +2,7 @@ import * as model from "#dals/index.js";
 import * as apiModel from "./index.js";
 
 export const mapRoomFromModelToApi = (room: model.Room): apiModel.RoomAPIModel => ({
-  _id: room._id,
+  _id: room._id.toString(),
   listing_url: room.listing_url,
   name: room.name,
   images: {

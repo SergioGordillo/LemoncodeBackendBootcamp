@@ -7,7 +7,7 @@ export const createRestApiServer = () => {
   app.use(express.json());
   app.use(
     cors({
-      methods: envConstants.CORS_METHODS,
+      methods: envConstants.CORS_METHOD,
       origin: envConstants.CORS_ORIGIN,
       credentials: true
     })

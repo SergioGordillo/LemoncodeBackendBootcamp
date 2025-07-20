@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface Room {
-  _id: string;
+  _id: string | ObjectId;
   listing_url: string;
   name: string;
   summary: string;

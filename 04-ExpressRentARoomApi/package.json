@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "run-p -l type-check:watch start:dev",
-    "start:dev": "node --loader ts-node/esm --require dotenv/config src/index.ts",
+    "start:dev": "node --loader ts-node/esm src/index.ts",
     "start:local-db": "docker compose up -d",
     "type-check": "tsc --noEmit --preserveWatchOutput",
     "type-check:watch": "npm run type-check -- --watch"
@@ -19,7 +19,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
