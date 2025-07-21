@@ -9,7 +9,6 @@ const envSchema = z.object({
   STATIC_FILES_PATH: z.string().default("../public"),
   CORS_ORIGIN: z.string(),
   CORS_METHOD: z.string(),
-  API_MOCK: z.string().optional(),
   MONGODB_URI: z.url().optional(),
 });
 

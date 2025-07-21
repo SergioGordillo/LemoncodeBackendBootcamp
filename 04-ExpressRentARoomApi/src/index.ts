@@ -16,8 +16,6 @@ app.use("/", staticFilesPath);
 
 app.get("/", (req, res) => {
   console.log("NODE_ENV:", env.NODE_ENV);
-  console.log("API_MOCK:", env.API_MOCK);
-  console.log("isApiMock:", envConstants.isApiMock);
   console.log("MONGODB_URI:", env.MONGODB_URI);
   res.send("Hello World");
 });

@@ -12,12 +12,14 @@ roomApi.get("/", async (req, res, next) => {
   try {
     const page = Number(req.query.page);
     const pageSize = Number(req.query.pageSize);
-    if (envConstants.isApiMock) {
+    if (envConstants.isProduction === "development") {
+      console.log("Entro en desarrollo");
       const roomList = await roomMockRepository.getRoomList(page, pageSize);
       res.send({
         data: roomList.map((room: Room) => mapRoomFromModelToApi(room)),
       });
     } else {
+      console.log("Entro en producción");
       if (!env.MONGODB_URI) {
         throw new Error("MONGODB_URI is not defined");
       }
