@@ -9,6 +9,27 @@ export const roomMockRepository: RoomRepository = {
     return paginateRoomList(db.rooms, safePage, safePageSize);
   },
    getRoom: async (id: string) => db.rooms.find((r) => r._id === id),
+
+   addRoomReview: async (roomId: string, reviewerName: string, comments: string): Promise<boolean> => {
+    const room = db.rooms.find((r) => r._id === roomId);
+
+    if (!room) return false;
+
+    const newReview = {
+      _id: roomId,
+      date: new Date().toISOString(),
+      reviewer_id: Math.random().toString(36).substring(2, 10),
+      reviewer_name: reviewerName,
+      comments: comments
+    };
+
+    if (!room.reviews) {
+      room.reviews = [];
+    }
+
+    room.reviews.push(newReview);
+    return true;
+  },
 };
 
 const paginateRoomList = (

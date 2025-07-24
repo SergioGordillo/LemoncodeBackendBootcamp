@@ -95,9 +95,9 @@ export interface Room {
 }
 
 export interface RoomReview {
-  _id?: string;
-  date: string;
-  reviewer_id: string;
+  _id?: string | ObjectId;
+  date: string | Date;
+  reviewer_id: string | ObjectId;
   reviewer_name: string;
   comments: string;
 }

@@ -15,8 +15,6 @@ const staticFilesPath = express.static(
 app.use("/", staticFilesPath);
 
 app.get("/", (req, res) => {
-  console.log("NODE_ENV:", env.NODE_ENV);
-  console.log("MONGODB_URI:", env.MONGODB_URI);
   res.send("Hello World");
 });
 
@@ -30,8 +28,3 @@ app.use(async (error: any, req: any, res: any, next: any) => {
 app.listen(envConstants.PORT, () => {
   console.log(`Server ready at port ${envConstants.PORT}`);
 });
-
-/*import {
-  logRequestMiddleware,
-  logErrorRequestMiddleware,
-} from "#common/middlewares/index.js";*/

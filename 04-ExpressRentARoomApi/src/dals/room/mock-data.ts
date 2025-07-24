@@ -7,7 +7,7 @@ export interface DB {
 export const db: DB = {
   rooms: [
     {
-      _id: "65097600a74000a4a4a22686",
+      _id: "1",
       listing_url: "https://www.airbnb.com/rooms/10006546",
       name: "Ribeira Charming Duplex",
       summary:
@@ -117,7 +117,7 @@ export const db: DB = {
       ],
     },
     {
-      _id: "65097600a74000a4a4a22687",
+      _id: "2",
       listing_url: "https://www.airbnb.com/rooms/10006547",
       name: "Cozy Studio Downtown",
       summary: "Perfect for couples, near city attractions.",
@@ -210,7 +210,7 @@ export const db: DB = {
       ],
     },
     {
-      _id: "65097600a74000a4a4a22688",
+      _id: "3",
       listing_url: "https://www.airbnb.com/rooms/10006548",
       name: "Modern Loft with Views",
       summary: "Spacious loft with river views.",
@@ -303,7 +303,7 @@ export const db: DB = {
       ],
     },
     {
-      _id: "65097600a74000a4a4a22689",
+      _id: "4",
       listing_url: "https://www.airbnb.com/rooms/10006549",
       name: "Seaside Cottage",
       summary: "Cozy cottage by the sea.",
@@ -396,7 +396,7 @@ export const db: DB = {
       ],
     },
     {
-      _id: "65097600a74000a4a4a22690",
+      _id: "5",
       listing_url: "https://www.airbnb.com/rooms/10006550",
       name: "Mountain Cabin Retreat",
       summary: "Rustic cabin with mountain views.",

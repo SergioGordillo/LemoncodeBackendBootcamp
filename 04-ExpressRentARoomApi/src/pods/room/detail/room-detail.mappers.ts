@@ -25,7 +25,7 @@ export const mapRoomToRoomDetailApiModel = (room: Room): RoomDetailApiModel => {
       .map((r) => ({
         name: r.reviewer_name,
         comment: r.comments,
-        date: r.date,
+        date: typeof r.date === "string" ? r.date : r.date.toISOString(),
       })),
   };
 };
