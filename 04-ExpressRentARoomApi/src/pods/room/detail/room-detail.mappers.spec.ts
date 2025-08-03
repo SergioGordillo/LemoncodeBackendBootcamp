@@ -1,9 +1,9 @@
-import { mapRoomFromModelToApi } from "./room.mappers.js";
+import { mapRoomToRoomDetailApiModel } from "./room-detail.mappers.js";
 import * as model from "#dals/index.js";
-import * as apiModel from "./room.api-model.js";
+import { RoomDetailApiModel } from "./room-detail.api-model.js";
 
-describe("mapRoomFromModelToApi", () => {
-  it("should map a Room model to RoomAPIModel correctly", () => {
+describe("mapRoomToRoomDetailApiModel", () => {
+  it("should map a Room to RoomDetailApiModel correctly", () => {
     // Arrange
     const room: model.Room = {
       _id: "1",
@@ -116,26 +116,34 @@ describe("mapRoomFromModelToApi", () => {
       ],
     };
 
-    const expectedRoom: apiModel.RoomAPIModel = {
-      _id: "1",
-      listing_url: "https://www.airbnb.com/rooms/10006546",
-      name: "Ribeira Charming Duplex",
-      images: {
-        thumbnail_url: "https://example.com/thumb1.jpg",
-        medium_url: "https://example.com/medium1.jpg",
-        picture_url: "https://example.com/pic1.jpg",
-        xl_picture_url: "https://example.com/xlpic1.jpg",
-      },
-      address: {
-        country: "Portugal",
-        country_code: "PT",
-      },
+    const expectedRoomDetail: RoomDetailApiModel = {
+      id: "1",
+      title: "Ribeira Charming Duplex",
+      description:
+        "Fantastic duplex apartment with three bedrooms, located in the historic center of Porto.",
+      picture: "https://example.com/pic1.jpg",
+      address: "Rua da Ribeira 10, Ribeira, Porto, Portugal",
+      bedrooms: 3,
+      beds: 5,
+      bathrooms: 1,
+      reviews: [
+        {
+          name: "Jane Smith",
+          comment: "Lovely place and very clean.",
+          date: "2019-01-15",
+        },
+        {
+          name: "John Doe",
+          comment: "Great stay, highly recommend!",
+          date: "2019-01-10",
+        },
+      ],
     };
 
     // Act
-    const result = mapRoomFromModelToApi(room);
+    const result = mapRoomToRoomDetailApiModel(room);
 
     // Assert
-    expect(result).toEqual(expectedRoom);
+    expect(result).toEqual(expectedRoomDetail);
   });
 });
