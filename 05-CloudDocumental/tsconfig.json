@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": true,
+    "types": ["jest"],  
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "#dals/*": ["dals/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
