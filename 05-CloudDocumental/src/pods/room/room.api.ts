@@ -14,6 +14,7 @@ roomApi.get("/", async (req, res, next) => {
     const pageSize = Number(req.query.pageSize);
     if (envConstants.isProduction === "development") {
       const roomList = await roomMockRepository.getRoomList(page, pageSize);
+      console.log("roomListMockData", roomList);
       res.send({
         data: roomList.map((room: Room) => mapRoomFromModelToApi(room)),
       });
@@ -25,6 +26,7 @@ roomApi.get("/", async (req, res, next) => {
       await client.connect();
       const db = client.db("airbnb");
       const roomList = await roomMongoRepository(db).getRoomList();
+      console.log("roomListMongoData", roomList);
       res.send({
         data: roomList.map((room: Room) => mapRoomFromModelToApi(room)),
       });

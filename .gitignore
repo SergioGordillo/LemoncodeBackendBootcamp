@@ -125,6 +125,10 @@ obj/
 # Publish output
 publish/
 
+# Public folder
+**/public/
+
+
 # SQL Server files
 *.bin
 *.mdf
