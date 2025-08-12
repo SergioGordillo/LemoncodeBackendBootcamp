@@ -1,7 +1,18 @@
 {
   "type": "module",
   "main": "index.js",
-  "imports": {
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0",
+    "zod": "^4.0.5"
+  },
+    "imports": {
     "#*": "./*"
   }
 }
